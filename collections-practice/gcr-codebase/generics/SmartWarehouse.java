@@ -10,9 +10,10 @@ abstract class WarehouseItem {
 	public String getName() {
 		return name;
 	}
-    
+
 	public abstract void displayInfo() ;
 	
+    
 }
 class Electronics extends WarehouseItem {
     public Electronics(String name) {

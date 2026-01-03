@@ -82,8 +82,9 @@ public class ResumeScreening{
         allResumes.add(dsResume.getJobRole());
         allResumes.add(pmResume.getJobRole());
 
-        
+
         System.out.println("AI-Driven Resume Screening:\n");
         ResumeProcessor.screenResumes(allResumes);
     }
+    
 }

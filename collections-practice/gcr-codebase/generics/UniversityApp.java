@@ -12,8 +12,9 @@ abstract class CourseType {
     public String getTitle() {
         return title;
     }
-    
 
+
+    
     public String getInstructor() {
         return instructor;
     }

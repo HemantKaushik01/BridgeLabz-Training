@@ -13,6 +13,7 @@ class VegetarianMeal implements MealPlan {
     public String getMealType() {
         return "Vegetarian";
     }
+    
 }
 
  

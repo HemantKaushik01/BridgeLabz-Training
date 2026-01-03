@@ -70,6 +70,7 @@ class Product<T extends Category> {
     public String getDetails() {
         return name + " | " + category.getCategoryName() + " | Price: ₹" + price;
     }
+
     
 }
 
