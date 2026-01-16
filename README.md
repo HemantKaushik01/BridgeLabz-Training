@@ -14,6 +14,7 @@ gcr-codebase/ └── generics/
  - Map
 Practiced iteration techniques and collection operations.
 - Submitted solutions in:
+  
 gcr-codebase/ └──collections/
 <a href="https://github.com/HemantKaushik01/BridgeLabz-Training/tree/collections-practice/collections-practice/gcr-codebase/collections">Collections</a>
 
@@ -60,6 +61,24 @@ gcr-codebase/
 ### 13 Jan 2026
 - Solved 2 leetcode questions.
 <a href="https://github.com/HemantKaushik01/BridgeLabz-Training/tree/collections-practice/collections-practice/leet-code-codebase">LeetCode</a>
+
+### 16 Jan 2026
+- Practiced Java Reflection API:
+ - Accessing class metadata at runtime
+ - Invoking methods dynamically
+ - Accessing private fields and methods using reflection
+- Implemented Custom Annotations:
+ - Method-level and class-level annotations
+ - Used @Retention and @Target
+ - Processed annotations at runtime using reflection
+- Submitted solutions in:
+gcr-codebase/
+├── reflection/
+<a href="https://github.com/HemantKaushik01/BridgeLabz-Training/tree/collections-practice/collections-practice/gcr-codebase/reflection">Reflection</a>
+
+gcr-codebase/
+├── annotations/
+<a href="https://github.com/HemantKaushik01/BridgeLabz-Training/tree/collections-practice/collections-practice/gcr-codebase/annotations">Annotations</a>
 
 
 ## 🔗 Quick Links
