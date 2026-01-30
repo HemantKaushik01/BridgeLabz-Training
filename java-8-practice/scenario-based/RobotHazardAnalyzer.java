@@ -15,7 +15,7 @@ public class RobotHazardAnalyzer {
 			throw new RobotSafetyException("Error: Worker density must be 1-20");
 			
 		}
-		if(!machineryState.equals("Worn") && !machineryState.equals("Faulty") && machineryState.equals("Critical")) {
+		if(!machineryState.equals("Worn") && !machineryState.equals("Faulty") && !machineryState.equals("Critical")) {
 			throw new RobotSafetyException("Error: Unsupported machinery state");
 		}
 		double machineRiskFactor = 0;
