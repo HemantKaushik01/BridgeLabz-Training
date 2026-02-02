@@ -1,90 +1,215 @@
-
 import java.util.*;
 import java.util.stream.*;
 
 interface EmergencyService {
-
 }
+
 interface TransportService {
-    String getServiceName();
-    default void printServiceDetails() {
-        System.out.println("Service: " + getServiceName());
-    }
+	String getServiceName();
+
+	String getRoute();
+
+	double getFare();
+
+	int getDepartureTime();
+
+	default void printServiceDetails() {
+		System.out.println(getServiceName() + " | Route: " + getRoute() + " | Fare: ₹" + getFare() + " | Time: "
+				+ getDepartureTime() + ":00");
+	}
 }
+
 interface GeoUtils {
-    static double calculateDistance(double lat1, double lon1, double lat2, double lon2) {
-        
-        final int R = 6371; 
-        double latDistance = Math.toRadians(lat2 - lat1);
-        double lonDistance = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-        return R * c; 
-    }
+	static double calculateDistance(double x1, double y1, double x2, double y2) {
+		double dx = x2 - x1;
+		double dy = y2 - y1;
+		return Math.sqrt(dx * dx + dy * dy);
+	}
 }
+
+@FunctionalInterface
+interface FareCalculator {
+	double calculateFare(double distance);
+}
+
 class BusService implements TransportService {
-    public String getServiceName() { 
-        return "City Bus"; 
-    }
+	public String getServiceName() {
+		return "Bus";
+	}
+
+	public String getRoute() {
+		return "A → B";
+	}
+
+	public double getFare() {
+		return 30;
+	}
+
+	public int getDepartureTime() {
+		return 9;
+	}
 }
+
 class MetroService implements TransportService {
-    public String getServiceName() { 
-        return "City Metro"; }
+	public String getServiceName() {
+		return "Metro";
+	}
+
+	public String getRoute() {
+		return "B → C";
+	}
+
+	public double getFare() {
+		return 50;
+	}
+
+	public int getDepartureTime() {
+		return 8;
+	}
 }
+
 class TaxiService implements TransportService {
-    public String getServiceName() { return "City Taxi"; }
+	public String getServiceName() {
+		return "Taxi";
+	}
+
+	public String getRoute() {
+		return "A → C";
+	}
+
+	public double getFare() {
+		return 120;
+	}
+
+	public int getDepartureTime() {
+		return 7;
+	}
 }
+
+class AmbulanceService implements TransportService, EmergencyService {
+	public String getServiceName() {
+		return "Ambulance";
+	}
+
+	public String getRoute() {
+		return "Emergency Route";
+	}
+
+	public double getFare() {
+		return 0;
+	}
+
+	public int getDepartureTime() {
+		return 24;
+	}
+}
+
+class Passenger {
+	String route;
+	double fare;
+	boolean peak;
+
+	Passenger(String route, double fare, boolean peak) {
+		this.route = route;
+		this.fare = fare;
+		this.peak = peak;
+	}
+
+	String getRoute() {
+		return route;
+	}
+
+	double getFare() {
+		return fare;
+	}
+
+	boolean isPeak() {
+		return peak;
+	}
+}
+
 public class SmartCity {
-    public static void main(String[] args) {
- 
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Welcome to Smart City Transport System, !");
-        while(true) {
-            System.out.println("1. Book a Trip");
-            System.out.println("2. View Active Services");
-            System.out.println("3. Exit");
-            int choice = scanner.nextInt();
-            scanner.nextLine(); 
-            switch (choice) {
-                case 1:
-                    System.out.println("Booking a trip...");
-                    System.out.println("Enter  the user Name: ");
-                    String userName = scanner.nextLine();
-                    System.out.println("Enter your current location (latitude and longitude): ");
-        double latitude = scanner.nextDouble();
-        double longitude = scanner.nextDouble();
-        System.out.println("Enter your destination (latitude and longitude): ");
-        double destLatitude = scanner.nextDouble();
-        double destLongitude = scanner.nextDouble();
-            double distance = GeoUtils.calculateDistance(latitude, longitude, destLatitude, destLongitude);
-        System.out.println("Distance between points: " + distance + " km");
-                    break;
-                case 2:
-                    viewActiveServices();
-                    break;
-                case 3:
-                    System.out.println("Exiting...");
-                    
-                    return;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
-            }
-        }
-        
 
-    }
+	static List<TransportService> services = Arrays.asList(new BusService(), new MetroService(), new TaxiService(),
+			new AmbulanceService());
 
-    private static void viewActiveServices() {
-        System.out.println("Active Transport Services:");
-        List<TransportService> services = Arrays.asList(
-            new BusService(),
-            new MetroService(),
-            new TaxiService()
-        );
-        services.forEach(TransportService::printServiceDetails);
+	static List<Passenger> passengers = new ArrayList<>();
 
-    }
+	public static void main(String[] args) {
+
+		Scanner sc = new Scanner(System.in);
+
+		while (true) {
+			System.out.println("\n1. Book Trip");
+			System.out.println("2. View Services");
+			System.out.println("3. Emergency Services");
+			System.out.println("4. Revenue Report");
+			System.out.println("5. Exit");
+			int choice = sc.nextInt();
+
+			switch (choice) {
+
+			case 1:
+				sc.nextLine();
+				System.out.print("Enter Route: ");
+				String route = sc.nextLine();
+
+				System.out.print("Peak Time (true/false): ");
+				boolean peak = sc.nextBoolean();
+
+				System.out.print("Enter Source Latitude Longitude: ");
+				double x1 = sc.nextDouble();
+				double y1 = sc.nextDouble();
+
+				System.out.print("Enter Destination Latitude Longitude: ");
+				double x2 = sc.nextDouble();
+				double y2 = sc.nextDouble();
+
+				double distance = GeoUtils.calculateDistance(x1, y1, x2, y2);
+
+				FareCalculator calculator = d -> d * 10;
+				double fare = calculator.calculateFare(distance);
+
+				passengers.add(new Passenger(route, fare, peak));
+
+				System.out.println("Distance: " + distance);
+				System.out.println("Fare: " + fare);
+				break;
+
+			case 2:
+				services.stream().sorted((a, b) -> a.getDepartureTime() - b.getDepartureTime())
+						.forEach(TransportService::printServiceDetails);
+				break;
+
+			case 3:
+				services.stream().filter(s -> s instanceof EmergencyService)
+						.forEach(s -> System.out.println(s.getServiceName() + " PRIORITY"));
+				break;
+
+			case 4:
+				Map<String, List<Passenger>> byRoute = passengers.stream()
+						.collect(Collectors.groupingBy(Passenger::getRoute));
+
+				byRoute.forEach((r, list) -> System.out.println(r + " : " + list.size()));
+
+				Map<Boolean, List<Passenger>> peakMap = passengers.stream()
+						.collect(Collectors.partitioningBy(Passenger::isPeak));
+
+				DoubleSummaryStatistics stats = passengers.stream()
+						.collect(Collectors.summarizingDouble(Passenger::getFare));
+
+				System.out.println("Peak Trips: " + peakMap.get(true).size());
+				System.out.println("Non-Peak Trips: " + peakMap.get(false).size());
+				System.out.println("Total Revenue: " + stats.getSum());
+				System.out.println("Average Fare: " + stats.getAverage());
+				break;
+
+			case 5:
+				return;
+
+			default:
+				System.out.println("Invalid Choice");
+			}
+		}
+	}
 }
-
