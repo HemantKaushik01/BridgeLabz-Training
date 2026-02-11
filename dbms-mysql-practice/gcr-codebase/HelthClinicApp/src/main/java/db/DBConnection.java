@@ -15,7 +15,3 @@ public class DBConnection {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 }
-
-//String url = "jdbc:mysql://localhost:3306/jdbc_demo";
-//String user = "root";
-//String pass = "1473695";
