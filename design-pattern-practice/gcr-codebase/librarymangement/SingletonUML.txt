@@ -1,0 +1,14 @@
++----------------------+
+|   LibraryCatalog     |
++----------------------+
+| - instance           |
+| - books              |
+| - observers          |
++----------------------+
+| + getInstance()      |
+| + addBook()          |
+| + registerObserver() |
+| + notifyObservers()  |
++----------------------+
+
+
